@@ -1,0 +1,4 @@
+click
+pymysql
+flask
+pytest
