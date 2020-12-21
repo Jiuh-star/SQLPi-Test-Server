@@ -32,7 +32,7 @@ def index():
 @app.route('/echo')
 def echo():
     msg = request.args.get('msg', '')
-    app.logger.debug(f'URL /echo received message "{msg}".')
+    app.logger.info(f'URL /echo received message "{msg}".')
     return msg
 
 
@@ -42,7 +42,7 @@ def compare(comp):
     val = request.args.get('val', 0)
     expression = f'{RANDOM_VALUE} {comp} {val}'
     result = eval(expression)
-    app.logger.debug(f'URL /compare/<comp> eval expression "{expression}" and result is {result}')
+    app.logger.info(f'URL /compare/<comp> eval expression "{expression}" and result is {result}')
     return str(result)
 
 
@@ -53,12 +53,12 @@ def inject(app_name):
         return "test sql is 'SELECT value from test WHERE name='inject' LIMIT 0,1'"
 
     app_name = app_name or 'simple'
-    app.logger.debug(f'URL /inject/<app_> use app {app_name} with inject "{inject_}"')
+    app.logger.info(f'URL /inject/<app_> use app {app_name} with inject "{inject_}"')
 
     app_ = INJECT_APP_INJECT_POINT[app_name]
 
     result = app_(inject_)
-    app.logger.debug(f'URL /inject/<app_> returns {result}')
+    app.logger.info(f'URL /inject/<app_> returns {result}')
     return str(result)
 
 
