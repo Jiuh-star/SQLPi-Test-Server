@@ -5,7 +5,7 @@ from flask import Flask, redirect, url_for, request
 import db
 from inject_points import *
 
-RANDOM_VALUE = random.randint(1, 16843008)  # 256^3 + 256^2 + 256^1
+RANDOM_VALUE = random.randint(1, 0xFFFFFF)
 SQL_COMP_PYTHON_COMP = {
     '>': '>',
     '>=': '>=',
@@ -40,7 +40,8 @@ def echo():
 def compare(comp):
     comp = SQL_COMP_PYTHON_COMP[comp]
     val = request.args.get('val', 0)
-    expression = f'{RANDOM_VALUE} {comp} {val}'
+    target_val = request.args.get('target', RANDOM_VALUE)
+    expression = f'{target_val} {comp} {val}'
     result = eval(expression)
     app.logger.info(f'URL /compare/<comp> eval expression "{expression}" and result is {result}')
     return str(result)
