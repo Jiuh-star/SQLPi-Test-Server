@@ -63,5 +63,11 @@ def inject(app_name):
     return str(result)
 
 
+@app.route('/debug/target')
+def get_target():
+    app.logger.info(f'URL /debug/target returns {RANDOM_VALUE}')
+    return RANDOM_VALUE
+
+
 if __name__ == '__main__':
     app.run()

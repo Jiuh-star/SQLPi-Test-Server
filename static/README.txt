@@ -6,10 +6,12 @@ simple behavior:
     3. Simple blind injection test instance.
     4. Blind injection test instance with a simple WAF.
     5. Blind injection test instance with a high latency network.
+    6. Get the fixed random value.
 And their URL and expected params are:
     1. /echo?msg=
     2. /compare/<string:comp>?val=[?target=]
     3. /inject/simple?inject=
     4. /inject/waf?inject=
     5. /inject/latency?inject=
+    6. /debug/target
 Have fun!
