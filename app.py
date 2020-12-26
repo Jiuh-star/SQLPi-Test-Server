@@ -102,7 +102,7 @@ def compare_count():
         print(f'URL /debug/target reset count')
         compare_num = 0
     print(f'URL /debug/target returns {compare_num}')
-    return str(inject_count)
+    return str(compare_num)
 
 
 @app.route('/debug/request-count')
