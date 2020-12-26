@@ -10,6 +10,7 @@ simple behavior:
     7. Get or reset inject count.
     8. Get or reset compare count.
     9. Get or reset request count.
+    10. Reset all count.
 And their URL and expected params are:
     1. /echo?msg=
     2. /compare/<string:comp>?val=[?target=]
@@ -20,4 +21,5 @@ And their URL and expected params are:
     7. /debug/inject-count[?reset]
     8. /debug/compare-count[?reset]
     9. /debug/request-count[?reset]
+    10. /debug/reset
 Have fun!

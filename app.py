@@ -115,5 +115,13 @@ def request_count():
     return str(request_num)
 
 
+@app.route('/debug/reset')
+def reset_count():
+    global request_num, compare_num, inject_num
+    request_num, compare_num, inject_num = 0, 0, 0
+    print(f'URL /debug/reset reset all counts')
+    return 'reset all counts'
+
+
 if __name__ == '__main__':
     app.run()
