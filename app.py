@@ -48,8 +48,8 @@ def echo():
 
 @app.route('/compare/<comp>')
 def compare(comp):
-    global inject_num
-    inject_num += 1
+    global compare_num
+    compare_num += 1
 
     comp = SQL_COMP_PYTHON_COMP[comp]
     val = request.args.get('val', 0)
