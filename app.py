@@ -23,6 +23,8 @@ INJECT_APP_INJECT_POINT = {
 app = Flask(__name__)
 db.init_app(app)
 
+inject_count = 0
+
 
 @app.route('/')
 def index():
@@ -49,6 +51,8 @@ def compare(comp):
 
 @app.route('/inject/<app_name>')
 def inject(app_name):
+    global inject_count
+    inject_count += 1
     inject_ = request.args.get('inject', '')
     if not inject_:
         return "test sql is 'SELECT value from test WHERE name='inject' LIMIT 0,1'"
@@ -66,7 +70,17 @@ def inject(app_name):
 @app.route('/debug/target')
 def get_target():
     app.logger.info(f'URL /debug/target returns {RANDOM_VALUE}')
-    return RANDOM_VALUE
+    return str(RANDOM_VALUE)
+
+
+@app.route('/debug/inject-count')
+def get_inject_count():
+    global inject_count
+    if 'reset' in request.args.keys():
+        app.logger.info(f'URL /debug/target reset count')
+        inject_count = 0
+    app.logger.info(f'URL /debug/target returns {inject_count}')
+    return str(inject_count)
 
 
 if __name__ == '__main__':
