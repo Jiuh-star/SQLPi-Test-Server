@@ -25,6 +25,7 @@ db.init_app(app)
 
 inject_num = 0
 request_num = 0
+compare_num = 0
 
 
 @app.before_request
@@ -47,6 +48,9 @@ def echo():
 
 @app.route('/compare/<comp>')
 def compare(comp):
+    global inject_num
+    inject_num += 1
+
     comp = SQL_COMP_PYTHON_COMP[comp]
     val = request.args.get('val', 0)
     target_val = request.args.get('target', RANDOM_VALUE)
@@ -60,6 +64,7 @@ def compare(comp):
 def inject(app_name):
     global inject_num
     inject_num += 1
+
     inject_ = request.args.get('inject', '')
     if not inject_:
         return "test sql is 'SELECT value from test WHERE name='inject' LIMIT 0,1'"
@@ -87,6 +92,16 @@ def inject_count():
         print(f'URL /debug/target reset count')
         inject_num = 0
     print(f'URL /debug/target returns {inject_count}')
+    return str(inject_count)
+
+
+@app.route('/debug/compare-count')
+def compare_count():
+    global compare_num
+    if 'reset' in request.args.keys():
+        print(f'URL /debug/target reset count')
+        compare_num = 0
+    print(f'URL /debug/target returns {compare_num}')
     return str(inject_count)
 
 
