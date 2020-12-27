@@ -1,14 +1,15 @@
-__all__ = ['inject_simple', 'inject_waf', 'inject_latency']
-
+from itertools import chain
 from random import randint
 from time import sleep
 
 from db import unsafe_query
 
+__all__ = ['inject_simple', 'inject_waf', 'inject_latency']
+
 
 def binary_result(func):
     def _wrapper(*args, **kwargs):
-        return True if func(*args, **kwargs) else False
+        return True if list(chain.from_iterable(*func(*args, **kwargs))) else False
 
     return _wrapper
 

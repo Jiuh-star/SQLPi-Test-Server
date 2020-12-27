@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, redirect, url_for, request
+from flask import Flask, redirect, url_for, request, Response
 
 import db
 from inject_points import *
@@ -92,11 +92,17 @@ def count():
         print(f'URL /debug/target reset count')
         inject_num, compare_num, request_num = 0, 0, 0
     print(f'URL /debug/count returns inject: {inject_num}, compare: {compare_num}, request: {request_num}')
-    return (
+    return Response((
         f'Inject Count: {inject_num}\n'
         f'Compare Count: {compare_num}\n'
         f'Request Count: {request_num}\n'
-    )
+    ), mimetype='text/plain')
+
+
+@app.route('/debug/db')
+def inject_get():
+    name = request.args.get('name', 'random')
+    return Response(''.join(inject_simple(name)[0]), mimetype='test/plain')
 
 
 if __name__ == '__main__':
