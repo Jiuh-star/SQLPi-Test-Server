@@ -6,7 +6,7 @@ from db import init_db
 
 @pytest.fixture
 def client():
-    app.debug = True
+    app.debug_query = True
 
     with app.test_client() as client:
         with app.app_context():

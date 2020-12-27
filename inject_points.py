@@ -4,7 +4,7 @@ from time import sleep
 
 from db import unsafe_query
 
-__all__ = ['inject_simple', 'inject_waf', 'inject_latency']
+__all__ = ['inject_simple', 'inject_waf', 'inject_latency', 'debug_query']
 
 
 def binary_result(func):
@@ -41,4 +41,8 @@ def inject_waf(inject):
 @binary_result
 def inject_latency(inject):
     sleep(randint(3, 5))
+    return _common_inject(inject)
+
+
+def debug_query(inject):
     return _common_inject(inject)

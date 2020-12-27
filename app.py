@@ -80,13 +80,13 @@ def inject(app_name):
 
 
 @app.route('/debug/target')
-def get_target():
+def debug_target():
     print(f'URL /debug/target returns {RANDOM_VALUE}')
     return str(RANDOM_VALUE)
 
 
 @app.route('/debug/count')
-def count():
+def debug_count():
     global inject_num, compare_num, request_num
     if 'reset' in request.args.keys():
         print(f'URL /debug/target reset count')
@@ -100,9 +100,9 @@ def count():
 
 
 @app.route('/debug/db')
-def inject_get():
+def debug_db():
     name = request.args.get('name', 'random')
-    return Response(''.join(inject_simple(name)[0]), mimetype='test/plain')
+    return Response(''.join(debug_query(name)[0]), mimetype='test/plain')
 
 
 if __name__ == '__main__':
