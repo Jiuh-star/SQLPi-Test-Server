@@ -102,7 +102,8 @@ def debug_count():
 @app.route('/debug/db')
 def debug_db():
     name = request.args.get('name', 'random')
-    return Response(''.join(debug_query(name)[0]), mimetype='test/plain')
+    print(f'URL /debug/db query name {name}')
+    return Response(''.join(debug_query(name)[0]), mimetype='text/plain')
 
 
 if __name__ == '__main__':
