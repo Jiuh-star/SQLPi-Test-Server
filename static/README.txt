@@ -7,10 +7,7 @@ simple behavior:
     4. Blind injection test instance with a simple WAF.
     5. Blind injection test instance with a high latency network.
     6. Get the fixed random value.
-    7. Get or reset inject count.
-    8. Get or reset compare count.
-    9. Get or reset request count.
-    10. Reset all count.
+    7. Get or reset counts of inject, compare and request.
 And their URL and expected params are:
     1. /echo?msg=
     2. /compare/<string:comp>?val=[?target=]
@@ -18,8 +15,5 @@ And their URL and expected params are:
     4. /inject/waf?inject=
     5. /inject/latency?inject=
     6. /debug/target
-    7. /debug/inject-count[?reset]
-    8. /debug/compare-count[?reset]
-    9. /debug/request-count[?reset]
-    10. /debug/reset
+    7. /debug/count[?reset]
 Have fun!

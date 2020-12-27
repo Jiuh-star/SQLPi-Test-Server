@@ -85,42 +85,18 @@ def get_target():
     return str(RANDOM_VALUE)
 
 
-@app.route('/debug/inject-count')
-def inject_count():
-    global inject_num
+@app.route('/debug/count')
+def count():
+    global inject_num, compare_num, request_num
     if 'reset' in request.args.keys():
         print(f'URL /debug/target reset count')
-        inject_num = 0
-    print(f'URL /debug/target returns {inject_count}')
-    return str(inject_count)
-
-
-@app.route('/debug/compare-count')
-def compare_count():
-    global compare_num
-    if 'reset' in request.args.keys():
-        print(f'URL /debug/target reset count')
-        compare_num = 0
-    print(f'URL /debug/target returns {compare_num}')
-    return str(compare_num)
-
-
-@app.route('/debug/request-count')
-def request_count():
-    global request_num
-    if 'reset' in request.args.keys():
-        print(f'URL /debug/target reset count')
-        request_num = 0
-    print(f'URL /debug/target returns {request_num}')
-    return str(request_num)
-
-
-@app.route('/debug/reset')
-def reset_count():
-    global request_num, compare_num, inject_num
-    request_num, compare_num, inject_num = 0, 0, 0
-    print(f'URL /debug/reset reset all counts')
-    return 'reset all counts'
+        inject_num, compare_num, request_num = 0, 0, 0
+    print(f'URL /debug/count returns inject: {inject_num}, compare: {compare_num}, request: {request_num}')
+    return (
+        f'Inject Count: {inject_num}\n'
+        f'Compare Count: {compare_num}\n'
+        f'Request Count: {request_num}\n'
+    )
 
 
 if __name__ == '__main__':
