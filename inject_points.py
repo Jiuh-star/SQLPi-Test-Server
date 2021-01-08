@@ -15,7 +15,7 @@ def binary_result(func):
 
 
 def _waf(*params):
-    """Not allowed any comparison operator"""
+    """Not allow any comparison operator"""
     for param in params:
         if any(comp in param for comp in ('>', '<', '=', '!')):
             return False
