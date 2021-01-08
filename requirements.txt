@@ -2,3 +2,4 @@ click
 pymysql
 flask
 pytest
+gevent

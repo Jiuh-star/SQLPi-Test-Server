@@ -1,5 +1,13 @@
 import random
 
+try:
+    from gevent import monkey
+    from gevent.pywsgi import WSGIServer
+
+    monkey.patch_all()
+finally:
+    pass
+
 from flask import Flask, redirect, url_for, request, Response
 
 import db
@@ -107,4 +115,10 @@ def debug_db():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    print("SQLPi Test Server start.")
+
+    http_server = WSGIServer(('127.0.0.1', 5000), app, log=app.logger)
+    try:
+        http_server.serve_forever()
+    except KeyboardInterrupt:
+        print("SQLPi Test Server stop.")

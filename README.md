@@ -7,5 +7,5 @@ for more details.
 
 1. Modify `connect_config` in `db.py`.
 1. `pip install -r requirements.txt` to install all required packages.
-1. `cd path/to/SQLPi-Test-Server && flask run` or `python3 app.py`.
+1. `cd path/to/SQLPi-Test-Server && python3 app.py`.
 1. Have fun! :-)
