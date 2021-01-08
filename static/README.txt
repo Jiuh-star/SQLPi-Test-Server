@@ -1,3 +1,9 @@
+                         _____  _____  __     _____  _ 
+                        |   __||     ||  |   |  _  ||_|
+                        |__   ||  |  ||  |__ |   __|| |
+                        |_____||__  _||_____||__|   |_|
+                                  |__|
+===============================================================================
                                SQLPi Test Server
 This project is developed as SQLPi test server. It implements the following
 simple behavior:

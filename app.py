@@ -1,5 +1,5 @@
 import random
-
+from textwrap import dedent
 try:
     from gevent import monkey
     from gevent.pywsgi import WSGIServer
@@ -115,7 +115,14 @@ def debug_db():
 
 
 if __name__ == '__main__':
-    print("SQLPi Test Server start.")
+    print(dedent("""
+         _____  _____  __     _____  _ 
+        |   __||     ||  |   |  _  ||_|
+        |__   ||  |  ||  |__ |   __|| |
+        |_____||__  _||_____||__|   |_|
+                  |__|
+        ==============================="""))
+    print('SQLPi Test Server start.')
 
     import logging
 
