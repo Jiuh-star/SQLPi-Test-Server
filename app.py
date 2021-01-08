@@ -117,6 +117,10 @@ def debug_db():
 if __name__ == '__main__':
     print("SQLPi Test Server start.")
 
+    import logging
+
+    app.logger.level = logging.INFO
+
     http_server = WSGIServer(('127.0.0.1', 5000), app, log=app.logger)
     try:
         http_server.serve_forever()
