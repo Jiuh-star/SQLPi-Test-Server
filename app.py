@@ -42,7 +42,7 @@ def index():
 @app.route('/echo')
 def echo():
     msg = request.args.get('msg', '')
-    print(f'URL /echo received message "{msg}".')
+    app.logger.info(f'URL /echo received message "{msg}".')
     return msg
 
 
@@ -56,7 +56,7 @@ def compare(comp):
     target_val = request.args.get('target', RANDOM_VALUE)
     expression = f'{target_val} {comp} {val}'
     result = eval(expression)
-    print(f'URL /compare/<comp> eval expression "{expression}" and result is {result}')
+    app.logger.info(f'URL /compare/<comp> eval expression "{expression}" and result is {result}')
     return str(result)
 
 
@@ -70,18 +70,18 @@ def inject(app_name):
         return "test sql is 'SELECT value from test WHERE name='inject' LIMIT 0,1'"
 
     app_name = app_name or 'simple'
-    print(f'URL /inject/<app_> use app {app_name} with inject "{inject_}"')
+    app.logger.info(f'URL /inject/<app_> use app {app_name} with inject "{inject_}"')
 
     app_ = INJECT_APP_INJECT_POINT[app_name]
 
     result = app_(inject_)
-    print(f'URL /inject/<app_> returns {result}')
+    app.logger.info(f'URL /inject/<app_> returns {result}')
     return str(result)
 
 
 @app.route('/debug/target')
 def debug_target():
-    print(f'URL /debug/target returns {RANDOM_VALUE}')
+    app.logger.info(f'URL /debug/target returns {RANDOM_VALUE}')
     return str(RANDOM_VALUE)
 
 
@@ -89,9 +89,9 @@ def debug_target():
 def debug_count():
     global inject_num, compare_num, request_num
     if 'reset' in request.args.keys():
-        print(f'URL /debug/target reset count')
+        app.logger.info(f'URL /debug/target reset count')
         inject_num, compare_num, request_num = 0, 0, 0
-    print(f'URL /debug/count returns inject: {inject_num}, compare: {compare_num}, request: {request_num}')
+    app.logger.info(f'URL /debug/count returns inject: {inject_num}, compare: {compare_num}, request: {request_num}')
     return Response((
         f'Inject Count: {inject_num}\n'
         f'Compare Count: {compare_num}\n'
@@ -102,7 +102,7 @@ def debug_count():
 @app.route('/debug/db')
 def debug_db():
     name = request.args.get('name', 'random')
-    print(f'URL /debug/db query name {name}')
+    app.logger.info(f'URL /debug/db query name {name}')
     return Response(''.join(debug_query(name)[0]), mimetype='text/plain')
 
 
