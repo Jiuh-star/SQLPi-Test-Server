@@ -1,5 +1,7 @@
 import random
+import threading
 from textwrap import dedent
+
 try:
     from gevent import monkey
     from gevent.pywsgi import WSGIServer
@@ -31,15 +33,25 @@ INJECT_APP_INJECT_POINT = {
 app = Flask(__name__)
 db.init_app(app)
 
-inject_num = 0
-request_num = 0
-compare_num = 0
+lock = threading.Lock()
+name_count = {}
+
+
+def safe_count(name, reset=False):
+    global name_count
+    with lock:
+        try:
+            name_count[name] += 1
+        except KeyError:
+            name_count[name] = 1
+        if reset:
+            name_count[name] = 0
+    return name_count[name]
 
 
 @app.before_request
 def request_count():
-    global request_num
-    request_num += 1
+    safe_count('request_num')
 
 
 @app.route('/')
@@ -56,8 +68,7 @@ def echo():
 
 @app.route('/compare/<comp>')
 def compare(comp):
-    global compare_num
-    compare_num += 1
+    safe_count('compare_num')
 
     comp = SQL_COMP_PYTHON_COMP[comp]
     val = request.args.get('val', 0)
@@ -70,8 +81,7 @@ def compare(comp):
 
 @app.route('/inject/<app_name>')
 def inject(app_name):
-    global inject_num
-    inject_num += 1
+    safe_count('inject_num')
 
     inject_ = request.args.get('inject', '')
     if not inject_:
@@ -95,15 +105,21 @@ def debug_target():
 
 @app.route('/debug/count')
 def debug_count():
-    global inject_num, compare_num, request_num
+    global name_count
     if 'reset' in request.args.keys():
         app.logger.info(f'URL /debug/target reset count')
-        inject_num, compare_num, request_num = 0, 0, 0
-    app.logger.info(f'URL /debug/count returns inject: {inject_num}, compare: {compare_num}, request: {request_num}')
+        safe_count('inject_num', reset=True)
+        safe_count('compare_num', reset=True)
+        safe_count('request_num', reset=True)
+    app.logger.info(
+        f'URL /debug/count returns '
+        f'inject: {name_count.get("inject_num", 0)}, '
+        f'compare: {name_count.get("compare_num", 0)}, '
+        f'request: {name_count.get("request_num", 0)}')
     return Response((
-        f'Inject Count: {inject_num}\n'
-        f'Compare Count: {compare_num}\n'
-        f'Request Count: {request_num}\n'
+        f'Inject Count: {name_count.get("inject_num", 0)}\n'
+        f'Compare Count: {name_count.get("compare_num", 0)}\n'
+        f'Request Count: {name_count.get("request_num", 0)}\n'
     ), mimetype='text/plain')
 
 
