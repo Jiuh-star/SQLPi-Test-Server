@@ -1,27 +1,43 @@
-                         _____  _____  __     _____  _ 
+                         _____  _____  __     _____  _
                         |   __||     ||  |   |  _  ||_|
                         |__   ||  |  ||  |__ |   __|| |
                         |_____||__  _||_____||__|   |_|
                                   |__|
 ===============================================================================
-                               SQLPi Test Server
-This project is developed as SQLPi test server. It implements the following
-simple behavior:
-    1. Echo.
-    2. Compare to a fixed random value with a given comparison operator.
-    3. Simple blind injection test instance.
-    4. Blind injection test instance with a simple WAF.
-    5. Blind injection test instance with a high latency network.
-    6. Get the fixed random value.
-    7. Get or reset counts of inject, compare and request.
-    8. Get value in data base according to name.
-And their URL and expected params are:
-    1. /echo?msg=
-    2. /compare/<string:comp>?val=[?target=]
-    3. /inject/simple?inject=
-    4. /inject/waf?inject=
-    5. /inject/latency?inject=
-    6. /debug/target
-    7. /debug/count[?reset]
-    8. /debug/db?name=
+                               sqlpi-test-server
+This project is developed as sqlpi test server. It implements some simple view
+and SQL injection points based on PostgreSQL:
+    * Basic:
+        + /basic/echo?msg=
+          > Echo msg.
+
+        + /basic/compare/<comp:string>?val=[&target=]
+          > Compare the target (default a global fixed random value) to the
+          > given value (val) using the specific comp (gt, ge, lt, le, eq, ne).
+
+    * Inject:
+        + Error-based:
+            - /inject/error/simple?inject=
+              > Simple error-based injection point.
+
+        + Blind-based (Boolean-based and Time-based):
+            - /inject/blind/waf?inject=
+              > Blind injection point with a simple WAF.
+
+            - /inject/blind/latency?inject=
+              > Blind injection point with high latency.
+
+            - /inject/blind/bad-net?inject=
+              > Blind injection point with a simulating terrible bad network.
+
+    * Debug:
+        + /debug/target
+          > Get the fixed random value.
+
+        + /debug/count/<view:string>[?reset=1]
+          > Get or reset the count of the view (compare/inject) requests.
+
+        + /debug/db?name=
+        + Get value in data base according to name.
+
 Have fun!
