@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio as aio
 from hashlib import sha1
-from pathlib import PurePath
+from pathlib import Path
 from random import random
 
 import asyncpg
@@ -20,7 +20,7 @@ _CONN_DSN = 'postgres://{user}:{password}@{host}:{port}/{database}'.format(
     port='5432',
     database='test',
 )
-STATIC_PATH = PurePath(__file__).parent.parent / 'static'
+STATIC_PATH = Path(__file__).resolve().parent.parent / 'static'
 
 app.static('/', 'static/README.txt')
 
